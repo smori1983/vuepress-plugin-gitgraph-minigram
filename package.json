@@ -1,0 +1,30 @@
+{
+  "name": "vuepress-plugin-gitgraph-minigram",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "files": [
+    "src/**",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "author": "Shinichiro MORI",
+  "license": "MIT",
+  "keywords": [
+    "vuepress",
+    "vuepress-plugin",
+    "gitgraph",
+    "pegjs"
+  ],
+  "homepage": "https://github.com/smori1983/vuepress-plugin-gitgraph-minigram#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smori1983/vuepress-plugin-gitgraph-minigram.git"
+  }
+}

@@ -10,7 +10,7 @@
         {{ error }}
       </div>
       <div class="input">
-        <pre>{{ input }}</pre>
+        <pre v-html="input"></pre>
       </div>
     </div>
   </div>
@@ -42,13 +42,25 @@ export default {
     const parseResult = parser.parse(input);
 
     if (!parseResult.parsed()) {
+      const error = parseResult.getError();
+
       this.error = sprintf(
         '%s (line: %d, column: %d)',
-        parseResult.getError().message,
-        parseResult.getError().location.start.line,
-        parseResult.getError().location.start.column,
+        error.message,
+        error.location.start.line,
+        error.location.start.column,
       );
-      this.input = input;
+
+      this.input = input
+        .split(/[\r\n]+/)
+        .map((line, index) => {
+          if (error.location.start.line === (index + 1)) {
+            return sprintf('<span class="line has-error">%s</span>', line);
+          } else {
+            return sprintf('<span class="line">%s</span>', line);
+          }
+        })
+        .join('');
 
       return;
     }
@@ -107,6 +119,13 @@ export default {
     background-color white
     color black
     padding 10px
+
+    >>> .line {
+      display block
+    }
+    >>> .has-error {
+      color #ff5555
+    }
   }
 }
 </style>

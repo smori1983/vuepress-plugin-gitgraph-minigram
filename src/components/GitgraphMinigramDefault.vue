@@ -20,7 +20,7 @@
 import { sprintf } from 'sprintf-js';
 import { templateExtend, TemplateName } from '@gitgraph/core';
 import { createGitgraph } from '@gitgraph/js';
-import { Format1Parser, GitLogger } from 'gitgraph-minigram';
+import { Format2Parser, GitLogger } from 'gitgraph-minigram';
 
 export default {
   data() {
@@ -35,7 +35,7 @@ export default {
       return;
     }
 
-    const parser = new Format1Parser();
+    const parser = new Format2Parser();
     const logger = new GitLogger();
 
     const input = this.$slots.default[0].text;

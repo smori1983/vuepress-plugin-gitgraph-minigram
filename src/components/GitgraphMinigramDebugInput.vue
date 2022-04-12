@@ -1,27 +1,27 @@
 <template>
-  <pre>
-    <debug-input-line
-      v-for="line in lines"
-      v-bind:text="line.text"
-      v-bind:error="line.error"
-    ></debug-input-line>
-  </pre>
+  <div class="container">
+    <template v-for="line in lines">
+      <span
+        class="line"
+        :class="{ error: line.error }"
+      >{{ line.text }}</span>
+
+      <span
+        v-if="line.error"
+        class="line"
+      >{{ marker }}</span>
+    </template>
+  </div>
 </template>
 
 <script>
-import DebugInputLine from './GitgraphMinigramDebugInputLine';
-
 export default {
-  components: {
-    DebugInputLine,
-  },
-
   props: {
     input: {
       type: String,
       required: true,
     },
-    errorLocation: {
+    error: {
       type: Object,
       required: true,
     },
@@ -30,6 +30,7 @@ export default {
   data() {
     return {
       lines: [],
+      marker: '',
     };
   },
 
@@ -37,7 +38,7 @@ export default {
     /**
      * @type {number}
      */
-    const errorLine = this.errorLocation.start.line;
+    const errorLine = this.error.location.start.line;
 
     this.lines = this.input
       .split(/[\r\n]+/)
@@ -47,15 +48,28 @@ export default {
           error: errorLine === (index + 1),
         };
       });
+
+    if (this.error.expected) {
+      this.marker = '-'.repeat(this.error.location.start.column - 1) + '^';
+    }
   },
 }
 </script>
 
 <style lang="stylus" scoped>
-pre {
+.container {
+  padding 10px
   border 1px solid black
   background-color white
   color black
-  padding 10px
+  font-family monospace
+
+  span.line {
+    display block
+  }
+
+  span.error {
+    color #ff5555
+  }
 }
 </style>

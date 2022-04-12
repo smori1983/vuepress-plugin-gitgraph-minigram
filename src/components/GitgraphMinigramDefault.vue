@@ -11,7 +11,7 @@
       </div>
       <div class="input">
         <debug-input
-          v-bind:error-location="errorLocation"
+          v-bind:error="error"
           v-bind:input="input"
         ></debug-input>
       </div>
@@ -34,8 +34,8 @@ export default {
   data() {
     return {
       input: '',
+      error: null,
       errorMessage: '',
-      errorLocation: null,
     };
   },
 
@@ -55,14 +55,14 @@ export default {
     if (!parseResult.parsed()) {
       const error = parseResult.getError();
 
+      this.error = error;
+
       this.errorMessage = sprintf(
         '%s (line: %d, column: %d)',
         error.message,
         error.location.start.line,
         error.location.start.column,
       );
-
-      this.errorLocation = error.location;
 
       return;
     }
@@ -114,6 +114,9 @@ export default {
 .error {
   .message {
     color #ff5555
+  }
+  .input {
+    padding 1em 0
   }
 }
 </style>

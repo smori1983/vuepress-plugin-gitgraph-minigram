@@ -2,40 +2,32 @@
   <div>
     <div ref="graph"></div>
 
-    <div
-      class="error"
-      v-if="errorMessage"
-    >
-      <div class="message">
-        {{ errorMessage }}
-      </div>
-      <div class="input">
-        <debug-input
-          v-bind:error="error"
-          v-bind:input="input"
-        ></debug-input>
-      </div>
-    </div>
+    <template v-if="error">
+      <error-info
+        v-bind:error="error"
+        v-bind:type="errorType"
+        v-bind:input="input"
+      ></error-info>
+    </template>
   </div>
 </template>
 
 <script>
-import { sprintf } from 'sprintf-js';
 import { templateExtend, TemplateName } from '@gitgraph/core';
 import { createGitgraph } from '@gitgraph/js';
 import { Format2Parser, GitLogger } from 'gitgraph-minigram';
-import DebugInput from './GitgraphMinigramDebugInput';
+import ErrorInfo from './GitgraphMinigramErrorInfo';
 
 export default {
   components: {
-    DebugInput,
+    ErrorInfo,
   },
 
   data() {
     return {
       input: '',
       error: null,
-      errorMessage: '',
+      errorType: '',
     };
   },
 
@@ -53,16 +45,8 @@ export default {
     this.input = input;
 
     if (!parseResult.parsed()) {
-      const error = parseResult.getError();
-
-      this.error = error;
-
-      this.errorMessage = sprintf(
-        '%s (line: %d, column: %d)',
-        error.message,
-        error.location.start.line,
-        error.location.start.column,
-      );
+      this.error = parseResult.getError();
+      this.errorType = 'grammar';
 
       return;
     }
@@ -104,19 +88,12 @@ export default {
     try {
       logger.create(graph, parseResult.getParseData());
     } catch (e) {
-      this.errorMessage = e.message;
+      this.error = e;
+      this.errorType = 'general';
     }
   },
 };
 </script>
 
 <style lang="stylus" scoped>
-.error {
-  .message {
-    color #ff5555
-  }
-  .input {
-    padding 1em 0
-  }
-}
 </style>

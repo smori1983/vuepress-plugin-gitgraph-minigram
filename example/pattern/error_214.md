@@ -1,11 +1,13 @@
 ---
-title: Error 01
+title: Error 214
 ---
 ## Result
 
 ```gitgraph
 [log]
 git commit -m '1'
-git commit -m '2
+git switch -c foo
+git switch -c foo
+git commit -m '2'
 git commit -m '3'
 ```

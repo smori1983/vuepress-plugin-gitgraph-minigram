@@ -13,12 +13,15 @@
 </template>
 
 <script>
-import { templateExtend, TemplateName } from '@gitgraph/core';
-import { createGitgraph } from '@gitgraph/js';
+import graphDefaultMixin from './mixin/graphDefault';
 import { Format2Parser, GitLogger } from 'gitgraph-minigram';
 import ErrorInfo from './GitgraphMinigramErrorInfo';
 
 export default {
+  mixins: [
+    graphDefaultMixin,
+  ],
+
   components: {
     ErrorInfo,
   },
@@ -52,38 +55,7 @@ export default {
     }
 
     const container = this.$refs['graph'];
-    // DEFAULT_FONT: 'normal 12pt Calibri'
-    const font = 'normal 12pt Monospace';
-    const customTemplate = templateExtend(TemplateName.Metro, {
-      branch: {
-        lineWidth: 5,
-        spacing: 25,
-        label: {
-          borderRadius: 5,
-          font: font,
-        },
-      },
-      commit: {
-        message: {
-          displayAuthor: false,
-          displayHash: false,
-          font: font,
-        },
-        dot: {
-          size: 8,
-        },
-        spacing: 40,
-      },
-      tag: {
-        borderRadius: 5,
-        pointerWidth: 5,
-        font: font,
-      },
-    });
-    const graph = createGitgraph(container, {
-      template: customTemplate,
-      branchLabelOnEveryCommit: true,
-    });
+    const graph = this.createGraph(container);
 
     try {
       logger.create(graph, parseResult.getParseData());

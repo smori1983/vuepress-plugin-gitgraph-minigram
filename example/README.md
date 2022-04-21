@@ -6,6 +6,6 @@ home: false
 ```js
 module.exports = {
   plugins: [
-    ['gitgrraph-minigram'],
+    ['gitgraph-minigram'],
   ],
 };

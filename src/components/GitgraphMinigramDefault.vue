@@ -2,20 +2,29 @@
   <div>
     <div ref="graph"></div>
 
-    <template v-if="error">
-      <error-info
+    <template v-if="error && errorType === 'general'">
+      <error-general
         v-bind:error="error"
-        v-bind:type="errorType"
+      ></error-general>
+    </template>
+
+    <template v-if="error && errorType === 'grammar'">
+      <error-grammar
+        v-bind:error="error"
         v-bind:input="input"
-      ></error-info>
+      ></error-grammar>
     </template>
   </div>
 </template>
 
 <script>
+import {
+  Format2Parser,
+  GitLogger
+} from 'gitgraph-minigram';
 import graphDefaultMixin from './mixin/graphDefault';
-import { Format2Parser, GitLogger } from 'gitgraph-minigram';
-import ErrorInfo from './GitgraphMinigramErrorInfo';
+import ErrorGeneral from './GitgraphMinigramErrorGeneral';
+import ErrorGrammar from './GitgraphMinigramErrorGrammar';
 
 export default {
   mixins: [
@@ -23,7 +32,8 @@ export default {
   ],
 
   components: {
-    ErrorInfo,
+    ErrorGeneral,
+    ErrorGrammar,
   },
 
   data() {

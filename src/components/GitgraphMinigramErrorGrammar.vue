@@ -3,10 +3,7 @@
     <div class="message">
       {{ message }}
     </div>
-    <div
-      v-if="type === 'grammar'"
-      class="input"
-    >
+    <div class="input">
       <debug-input
         v-bind:error="error"
         v-bind:input="input"
@@ -26,11 +23,7 @@ export default {
 
   props: {
     error: {
-      type: [Object, Error],
-      required: true,
-    },
-    type: {
-      type: String,
+      type: Object,
       required: true,
     },
     input: {
@@ -46,19 +39,12 @@ export default {
   },
 
   mounted() {
-    if (this.type === 'grammar') {
-      this.message = sprintf(
-        '[grammar] %s (line: %d, column: %d)',
-        this.error.message,
-        this.error.location.start.line,
-        this.error.location.start.column,
-      );
-    } else {
-      this.message = sprintf(
-        '[general] %s',
-        this.error.message
-      );
-    }
+    this.message = sprintf(
+      '[grammar] %s (line: %d, column: %d)',
+      this.error.message,
+      this.error.location.start.line,
+      this.error.location.start.column,
+    );
   },
 
 }

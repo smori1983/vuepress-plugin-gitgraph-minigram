@@ -16,7 +16,8 @@
     </div>
     <div class="right">
       <tabs
-        :options="{useUrlFragment: false}"
+        :cache-lifetime="-1"
+        :options="{useUrlFragment: false, defaultTabHash: 'editor-tab-graph'}"
         @changed="tabChanged"
       >
         <tab

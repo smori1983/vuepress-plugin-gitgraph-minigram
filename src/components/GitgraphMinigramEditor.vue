@@ -74,10 +74,12 @@ export default {
     };
   },
 
-  mounted() {
+  created() {
     this.parser = new Format2Parser();
     this.logger = new GitLogger();
+  },
 
+  mounted() {
     const container = this.$refs['graph'];
 
     this.graph = this.createGraph(container);

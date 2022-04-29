@@ -2,6 +2,10 @@ module.exports = {
   title: 'Demo',
 
   themeConfig: {
+    search: false,
+    nav: [
+      { text: 'Editor', link: '/editor.html' },
+    ],
     sidebar: [
       {
         collapse: false,

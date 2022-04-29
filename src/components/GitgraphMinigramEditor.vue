@@ -97,12 +97,12 @@ export default {
       const parseResult = this.parser.parse(this.input);
 
       if (parseResult.parsed()) {
+        this.errorMessage = '';
+        this.ast = JSON.stringify(parseResult.getParseData().dump(), null, 2);
+
         try {
           this.graph.clear();
           this.logger.create(this.graph, parseResult.getParseData());
-
-          this.ast = JSON.stringify(parseResult.getParseData().dump(), null, 2);
-          this.errorMessage = '';
         } catch (e) {
           this.errorMessage = e.message;
         }

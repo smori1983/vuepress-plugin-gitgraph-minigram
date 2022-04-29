@@ -19,10 +19,16 @@
         :options="{useUrlFragment: false}"
         @changed="tabChanged"
       >
-        <tab name="Graph">
+        <tab
+          id="editor-tab-graph"
+          name="Graph"
+        >
           <div ref="graph"></div>
         </tab>
-        <tab name="AST">
+        <tab
+          id="editor-tab-ast"
+          name="AST"
+        >
           <pre class="ast">{{ ast }}</pre>
         </tab>
       </tabs>
@@ -79,7 +85,7 @@ export default {
 
   methods: {
     tabChanged(selectedTab) {
-      if (selectedTab.tab.name === 'Graph' && this.graph) {
+      if (selectedTab.tab.id === 'editor-tab-graph' && this.graph) {
         this.render();
       }
     },

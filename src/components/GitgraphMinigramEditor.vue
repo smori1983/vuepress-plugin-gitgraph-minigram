@@ -40,7 +40,7 @@
 <script>
 import { sprintf } from 'sprintf-js';
 import { Tabs, Tab } from 'vue-tabs-component';
-import { GitLogger, Format2Parser } from 'gitgraph-minigram';
+import { Generator, Format2Parser } from 'gitgraph-minigram';
 import graphDefaultMixin from './mixin/graphDefault';
 
 export default {
@@ -76,7 +76,7 @@ export default {
 
   created() {
     this.parser = new Format2Parser();
-    this.logger = new GitLogger();
+    this.generator = new Generator();
   },
 
   mounted() {
@@ -102,7 +102,7 @@ export default {
 
         try {
           this.graph.clear();
-          this.logger.create(this.graph, parseResult.getParseData());
+          this.generator.generate(this.graph, parseResult.getParseData());
         } catch (e) {
           this.errorMessage = e.message;
         }

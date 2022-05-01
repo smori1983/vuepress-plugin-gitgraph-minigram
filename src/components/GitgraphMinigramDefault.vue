@@ -18,10 +18,7 @@
 </template>
 
 <script>
-import {
-  Format2Parser,
-  GitLogger
-} from 'gitgraph-minigram';
+import { Format2Parser, Generator } from 'gitgraph-minigram';
 import graphDefaultMixin from './mixin/graphDefault';
 import ErrorGeneral from './GitgraphMinigramErrorGeneral';
 import ErrorGrammar from './GitgraphMinigramErrorGrammar';
@@ -50,7 +47,7 @@ export default {
     }
 
     const parser = new Format2Parser();
-    const logger = new GitLogger();
+    const generator = new Generator();
 
     const input = this.$slots.default[0].text;
     const parseResult = parser.parse(input);
@@ -68,7 +65,7 @@ export default {
     const graph = this.createGraph(container);
 
     try {
-      logger.create(graph, parseResult.getParseData());
+      generator.generate(graph, parseResult.getParseData());
     } catch (e) {
       this.error = e;
       this.errorType = 'general';

@@ -17,7 +17,7 @@
     <div class="right">
       <tabs
         :cache-lifetime="-1"
-        :options="{useUrlFragment: false, defaultTabHash: 'editor-tab-graph'}"
+        :options="tabsOptions"
         @changed="tabChanged"
       >
         <tab
@@ -55,6 +55,10 @@ export default {
 
   data() {
     return {
+      tabsOptions: {
+        useUrlFragment: false,
+        defaultTabHash: 'editor-tab-graph',
+      },
       parser: null,
       logger: null,
       graph: null,

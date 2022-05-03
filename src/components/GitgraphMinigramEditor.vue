@@ -40,6 +40,7 @@
 <script>
 import { sprintf } from 'sprintf-js';
 import { Tabs, Tab } from 'vue-tabs-component';
+import 'codemirror/lib/codemirror.css';
 import { codemirror } from 'vue-codemirror/src';
 import { Generator, Format2Parser } from 'gitgraph-minigram';
 import graphDefaultMixin from './mixin/graphDefault';

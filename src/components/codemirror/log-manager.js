@@ -31,6 +31,19 @@ class BranchList {
 
     return this._branches.get(branch);
   }
+
+  /**
+   * @return {Branch[]}
+   */
+  getAll() {
+    const result = [];
+
+    this._branches.forEach((branch) => {
+      result.push(branch);
+    });
+
+    return result;
+  }
 }
 
 class Branch {
@@ -274,6 +287,19 @@ class LogManager {
       branch: branch,
       tag: tag,
     };
+  }
+
+  /**
+   * @return {string[]}
+   */
+  getCreatedBranches() {
+    const result = [];
+
+    this._branchList.getAll().forEach((branch) => {
+      result.push(branch.getName());
+    });
+
+    return result;
   }
 
   /**

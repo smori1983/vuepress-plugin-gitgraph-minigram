@@ -1,0 +1,3 @@
+# CodeMirror Editor
+
+<PluginGitgraphMinigramCodeMirror/>

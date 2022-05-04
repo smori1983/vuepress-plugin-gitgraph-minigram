@@ -5,6 +5,7 @@ module.exports = {
     search: false,
     nav: [
       { text: 'Editor', link: '/editor.html' },
+      { text: 'CodeMirror Editor', link: '/codemirror.html' },
     ],
     sidebar: [
       {

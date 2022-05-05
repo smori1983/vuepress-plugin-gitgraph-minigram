@@ -290,6 +290,13 @@ class LogManager {
   }
 
   /**
+   * @return {string}
+   */
+  getCurrentBranch() {
+    return this._getCurrentBranch();
+  }
+
+  /**
    * @return {string[]}
    */
   getCreatedBranches() {

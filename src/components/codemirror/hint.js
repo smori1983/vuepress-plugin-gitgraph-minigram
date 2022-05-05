@@ -52,7 +52,9 @@ const hint = (cm, options) => {
 
   if (currentLineText.trim() === 'git checkout' && currentLineText.slice(-1) === ' ') {
     return {
-      list: logManager.getCreatedBranches(),
+      list: logManager.getCreatedBranches().filter((branch) => {
+        return branch !== logManager.getCurrentBranch();
+      }),
       from: CodeMirror.Pos(cursor.line, currentLineText.length),
       to: CodeMirror.Pos(cursor.line, currentLineText.length),
     };
@@ -60,7 +62,9 @@ const hint = (cm, options) => {
 
   if (currentLineText.trim() === 'git switch' && currentLineText.slice(-1) === ' ') {
     return {
-      list: logManager.getCreatedBranches(),
+      list: logManager.getCreatedBranches().filter((branch) => {
+        return branch !== logManager.getCurrentBranch();
+      }),
       from: CodeMirror.Pos(cursor.line, currentLineText.length),
       to: CodeMirror.Pos(cursor.line, currentLineText.length),
     };
@@ -68,7 +72,9 @@ const hint = (cm, options) => {
 
   if (currentLineText.trim() === 'git merge' && currentLineText.slice(-1) === ' ') {
     return {
-      list: logManager.getCreatedBranches(),
+      list: logManager.getCreatedBranches().filter((branch) => {
+        return branch !== logManager.getCurrentBranch();
+      }),
       from: CodeMirror.Pos(cursor.line, currentLineText.length),
       to: CodeMirror.Pos(cursor.line, currentLineText.length),
     };

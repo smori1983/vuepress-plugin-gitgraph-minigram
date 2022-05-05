@@ -38,12 +38,12 @@ const hint = (cm, options) => {
   if (currentLineText.trim() === 'git' && currentLineText.slice(-1) === ' ') {
     return {
       list: [
-        'commit',
-        'commit -m',
-        'switch',
-        'switch -c',
-        'merge',
-        'tag',
+        'commit ',
+        'commit -m ',
+        'switch ',
+        'switch -c ',
+        'merge ',
+        'tag ',
       ],
       from: CodeMirror.Pos(cursor.line, currentLineText.length),
       to: CodeMirror.Pos(cursor.line, currentLineText.length),

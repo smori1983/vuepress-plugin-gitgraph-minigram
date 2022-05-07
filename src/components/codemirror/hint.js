@@ -47,7 +47,7 @@ const hint = (cm, options) => {
 
   if (currentLine.trim() === 'git commit' && endsWithSpace(currentLine)) {
     return {
-      list: ['-m'],
+      list: ['-m '],
       from: CodeMirror.Pos(cursor.line, currentLine.length),
       to: CodeMirror.Pos(cursor.line, currentLine.length),
     }
@@ -57,7 +57,7 @@ const hint = (cm, options) => {
     return {
       list: logManager.getCreatedBranches().filter((branch) => {
         return branch !== logManager.getCurrentBranch();
-      }).concat(['-b']),
+      }).concat(['-b ']),
       from: CodeMirror.Pos(cursor.line, currentLine.length),
       to: CodeMirror.Pos(cursor.line, currentLine.length),
     };
@@ -67,7 +67,7 @@ const hint = (cm, options) => {
     return {
       list: logManager.getCreatedBranches().filter((branch) => {
         return branch !== logManager.getCurrentBranch();
-      }).concat(['-c']),
+      }).concat(['-c ']),
       from: CodeMirror.Pos(cursor.line, currentLine.length),
       to: CodeMirror.Pos(cursor.line, currentLine.length),
     };

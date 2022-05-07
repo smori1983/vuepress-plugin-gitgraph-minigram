@@ -57,7 +57,7 @@ const hint = (cm, options) => {
     };
   }
 
-  if (currentLine.trim() === 'git commit' && currentLine.slice(-1) === ' ') {
+  if (currentLine.trim() === 'git commit' && endsWithSpace(currentLine)) {
     return {
       list: ['-m'],
       from: CodeMirror.Pos(cursor.line, currentLine.length),
@@ -65,7 +65,7 @@ const hint = (cm, options) => {
     }
   }
 
-  if (currentLine.trim() === 'git checkout' && currentLine.slice(-1) === ' ') {
+  if (currentLine.trim() === 'git checkout' && endsWithSpace(currentLine)) {
     return {
       list: logManager.getCreatedBranches().filter((branch) => {
         return branch !== logManager.getCurrentBranch();
@@ -75,7 +75,7 @@ const hint = (cm, options) => {
     };
   }
 
-  if (currentLine.trim() === 'git switch' && currentLine.slice(-1) === ' ') {
+  if (currentLine.trim() === 'git switch' && endsWithSpace(currentLine)) {
     return {
       list: logManager.getCreatedBranches().filter((branch) => {
         return branch !== logManager.getCurrentBranch();
@@ -85,7 +85,7 @@ const hint = (cm, options) => {
     };
   }
 
-  if (currentLine.trim() === 'git merge' && currentLine.slice(-1) === ' ') {
+  if (currentLine.trim() === 'git merge' && endsWithSpace(currentLine)) {
     return {
       list: logManager.getCreatedBranches().filter((branch) => {
         return branch !== logManager.getCurrentBranch();
@@ -96,6 +96,14 @@ const hint = (cm, options) => {
   }
 
   return null;
+};
+
+/**
+ * @param {string} line
+ * @returns {boolean}
+ */
+const endsWithSpace = (line) => {
+  return /\s/.test(line.slice(-1));
 };
 
 module.exports = hint;

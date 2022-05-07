@@ -33,50 +33,65 @@ const hint = (cm, options) => {
     });
   } catch (e) {}
 
-  const currentLineText = cm.getLine(cursor.line);
+  const currentLine = cm.getLine(cursor.line);
 
-  if (currentLineText.trim() === 'git' && currentLineText.slice(-1) === ' ') {
+  const gitCommands = [
+    'git commit',
+    'git checkout ',
+    'git switch ',
+    'git merge ',
+    'git tag ',
+  ];
+
+  const gitCommandSuggestions = gitCommands.filter((command) => {
+    const trimmed = command.trim();
+
+    return trimmed.indexOf(currentLine.trim()) === 0 && currentLine.trim() !== trimmed;
+  });
+
+  if (gitCommandSuggestions.length > 0) {
     return {
-      list: [
-        'commit ',
-        'commit -m ',
-        'switch ',
-        'switch -c ',
-        'merge ',
-        'tag ',
-      ],
-      from: CodeMirror.Pos(cursor.line, currentLineText.length),
-      to: CodeMirror.Pos(cursor.line, currentLineText.length),
+      list: gitCommandSuggestions,
+      from: CodeMirror.Pos(cursor.line, currentLine.indexOf('git')),
+      to: CodeMirror.Pos(cursor.line, currentLine.length),
     };
   }
 
-  if (currentLineText.trim() === 'git checkout' && currentLineText.slice(-1) === ' ') {
+  if (currentLine.trim() === 'git commit' && currentLine.slice(-1) === ' ') {
+    return {
+      list: ['-m'],
+      from: CodeMirror.Pos(cursor.line, currentLine.length),
+      to: CodeMirror.Pos(cursor.line, currentLine.length),
+    }
+  }
+
+  if (currentLine.trim() === 'git checkout' && currentLine.slice(-1) === ' ') {
+    return {
+      list: logManager.getCreatedBranches().filter((branch) => {
+        return branch !== logManager.getCurrentBranch();
+      }).concat(['-b']),
+      from: CodeMirror.Pos(cursor.line, currentLine.length),
+      to: CodeMirror.Pos(cursor.line, currentLine.length),
+    };
+  }
+
+  if (currentLine.trim() === 'git switch' && currentLine.slice(-1) === ' ') {
+    return {
+      list: logManager.getCreatedBranches().filter((branch) => {
+        return branch !== logManager.getCurrentBranch();
+      }).concat(['-c']),
+      from: CodeMirror.Pos(cursor.line, currentLine.length),
+      to: CodeMirror.Pos(cursor.line, currentLine.length),
+    };
+  }
+
+  if (currentLine.trim() === 'git merge' && currentLine.slice(-1) === ' ') {
     return {
       list: logManager.getCreatedBranches().filter((branch) => {
         return branch !== logManager.getCurrentBranch();
       }),
-      from: CodeMirror.Pos(cursor.line, currentLineText.length),
-      to: CodeMirror.Pos(cursor.line, currentLineText.length),
-    };
-  }
-
-  if (currentLineText.trim() === 'git switch' && currentLineText.slice(-1) === ' ') {
-    return {
-      list: logManager.getCreatedBranches().filter((branch) => {
-        return branch !== logManager.getCurrentBranch();
-      }),
-      from: CodeMirror.Pos(cursor.line, currentLineText.length),
-      to: CodeMirror.Pos(cursor.line, currentLineText.length),
-    };
-  }
-
-  if (currentLineText.trim() === 'git merge' && currentLineText.slice(-1) === ' ') {
-    return {
-      list: logManager.getCreatedBranches().filter((branch) => {
-        return branch !== logManager.getCurrentBranch();
-      }),
-      from: CodeMirror.Pos(cursor.line, currentLineText.length),
-      to: CodeMirror.Pos(cursor.line, currentLineText.length),
+      from: CodeMirror.Pos(cursor.line, currentLine.length),
+      to: CodeMirror.Pos(cursor.line, currentLine.length),
     };
   }
 

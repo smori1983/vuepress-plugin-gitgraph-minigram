@@ -32,9 +32,10 @@ const hint = (cm, options) => {
   ];
 
   const gitCommandSuggestions = gitCommands.filter((command) => {
+    const normalized = normalize(currentLine);
     const trimmed = command.trim();
 
-    return trimmed.indexOf(currentLine.trim()) === 0 && currentLine.trim() !== trimmed;
+    return trimmed.indexOf(normalized) === 0 && normalized !== trimmed;
   });
 
   if (gitCommandSuggestions.length > 0) {
@@ -45,7 +46,7 @@ const hint = (cm, options) => {
     };
   }
 
-  if (currentLine.trim() === 'git commit' && endsWithSpace(currentLine)) {
+  if (normalize(currentLine) === 'git commit' && endsWithSpace(currentLine)) {
     return {
       list: ['-m '],
       from: CodeMirror.Pos(cursor.line, currentLine.length),
@@ -53,7 +54,7 @@ const hint = (cm, options) => {
     }
   }
 
-  if (currentLine.trim() === 'git checkout' && endsWithSpace(currentLine)) {
+  if (normalize(currentLine) === 'git checkout' && endsWithSpace(currentLine)) {
     return {
       list: logManager.getCreatedBranches().filter((branch) => {
         return branch !== logManager.getCurrentBranch();
@@ -63,7 +64,7 @@ const hint = (cm, options) => {
     };
   }
 
-  if (currentLine.trim() === 'git switch' && endsWithSpace(currentLine)) {
+  if (normalize(currentLine) === 'git switch' && endsWithSpace(currentLine)) {
     return {
       list: logManager.getCreatedBranches().filter((branch) => {
         return branch !== logManager.getCurrentBranch();
@@ -73,7 +74,7 @@ const hint = (cm, options) => {
     };
   }
 
-  if (currentLine.trim() === 'git merge' && endsWithSpace(currentLine)) {
+  if (normalize(currentLine) === 'git merge' && endsWithSpace(currentLine)) {
     return {
       list: logManager.getCreatedBranches().filter((branch) => {
         return branch !== logManager.getCurrentBranch();
@@ -84,6 +85,14 @@ const hint = (cm, options) => {
   }
 
   return null;
+};
+
+/**
+ * @param {string} value
+ * @returns {string}
+ */
+const normalize = (value) => {
+  return value.trim().split(/\s+/).join(' ');
 };
 
 /**

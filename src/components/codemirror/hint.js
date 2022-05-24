@@ -35,7 +35,7 @@ const hint = (cm, options) => {
     const normalized = normalize(currentLine);
     const trimmed = command.trim();
 
-    return trimmed.indexOf(normalized) === 0 && normalized !== trimmed;
+    return (normalized.length > 0) && (trimmed.indexOf(normalized) === 0) && (normalized !== trimmed);
   });
 
   if (gitCommandSuggestions.length > 0) {

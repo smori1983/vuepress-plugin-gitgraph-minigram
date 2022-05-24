@@ -310,6 +310,21 @@ class LogManager {
   }
 
   /**
+   * @return {string[]}
+   */
+  getMergeableBranches() {
+    const result = [];
+
+    this._branchList.getAll().forEach((branch) => {
+      if (branch.getCommitCount() > 0) {
+        result.push(branch.getName());
+      }
+    });
+
+    return result;
+  }
+
+  /**
    * @param {string} branch
    * @throws {Error}
    * @private

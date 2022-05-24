@@ -76,7 +76,7 @@ const hint = (cm, options) => {
 
   if (normalize(currentLine) === 'git merge' && endsWithSpace(currentLine)) {
     return {
-      list: logManager.getCreatedBranches().filter((branch) => {
+      list: logManager.getMergeableBranches().filter((branch) => {
         return branch !== logManager.getCurrentBranch();
       }),
       from: CodeMirror.Pos(cursor.line, currentLine.length),

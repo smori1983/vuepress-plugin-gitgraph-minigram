@@ -7,6 +7,7 @@
           class="input"
           v-model="input"
           v-bind:options="codemirrorOptions"
+          v-on:ready="onCmReady"
         ></codemirror>
         <div
           class="error-message"
@@ -43,6 +44,7 @@ import { Tabs, Tab } from 'vue-tabs-component';
 import 'codemirror/lib/codemirror.css';
 import { codemirror } from 'vue-codemirror/src';
 import { Generator, Format2Parser } from 'gitgraph-minigram';
+import hint from './codemirror/hint';
 import graphDefaultMixin from './mixin/graphDefault';
 
 export default {
@@ -113,6 +115,18 @@ export default {
       if (selectedTab.tab.id === 'editor-tab-graph' && this.graph) {
         this.render();
       }
+    },
+
+    /**
+     * @param {import('codemirror').Editor} cm
+     */
+    onCmReady(cm) {
+      cm.on('change', (cm) => {
+        cm.showHint({
+          hint: hint,
+          completeSingle: false,
+        });
+      });
     },
 
     render() {

@@ -42,6 +42,8 @@
 import { sprintf } from 'sprintf-js';
 import { Tabs, Tab } from 'vue-tabs-component';
 import 'codemirror/lib/codemirror.css';
+import 'codemirror/addon/hint/show-hint.css';
+import 'codemirror/addon/hint/show-hint';
 import { codemirror } from 'vue-codemirror/src';
 import { Generator, Format2Parser } from 'gitgraph-minigram';
 import hint from './codemirror/hint';

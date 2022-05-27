@@ -166,6 +166,7 @@ $gitgraphFontSize = 15px
     font-weight bold
   }
   .input {
+    margin-bottom 10px
     >>>.CodeMirror {
       border 1px solid gray
     }

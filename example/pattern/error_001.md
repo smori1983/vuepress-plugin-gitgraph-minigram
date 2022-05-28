@@ -6,3 +6,15 @@ title: Error 001
 ```gitgraph
 [foo]
 ```
+
+::: details Source
+
+````md
+## Result
+
+```gitgraph
+[foo]
+```
+````
+
+:::

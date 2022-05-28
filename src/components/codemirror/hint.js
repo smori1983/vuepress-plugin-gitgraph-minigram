@@ -84,6 +84,25 @@ const hint = (cm, options) => {
     };
   }
 
+  if (normalize(currentLine).indexOf('git commit') === 0) {
+    const candidates = [];
+    candidates.push('git commit -m ');
+
+    const list = candidates.filter((item) => {
+      const normalized = normalize(currentLine);
+
+      return (item.indexOf(normalized) === 0) && (normalized !== item);
+    });
+
+    if (list.length > 0) {
+      return {
+        list: list,
+        from: CodeMirror.Pos(cursor.line, currentLine.indexOf('git')),
+        to: CodeMirror.Pos(cursor.line, currentLine.length),
+      };
+    }
+  }
+
   if (normalize(currentLine).indexOf('git checkout') === 0) {
     const candidates = [];
     candidates.push('git checkout -b ');

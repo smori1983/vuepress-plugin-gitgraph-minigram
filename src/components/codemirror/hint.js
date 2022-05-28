@@ -110,6 +110,32 @@ const hint = (cm, options) => {
     }
   }
 
+  if (normalize(currentLine).indexOf('git switch') === 0) {
+    const candidates = [];
+    candidates.push('git switch -c ');
+    logManager.getCreatedBranches()
+      .filter((branch) => {
+        return branch !== logManager.getCurrentBranch();
+      })
+      .forEach((branch) => {
+        candidates.push(sprintf('git switch %s', branch));
+      });
+
+    const list = candidates.filter((item) => {
+      const normalized = normalize(currentLine);
+
+      return (item.indexOf(normalized) === 0) && (normalized !== item);
+    });
+
+    if (list.length > 0) {
+      return {
+        list: list,
+        from: CodeMirror.Pos(cursor.line, currentLine.indexOf('git')),
+        to: CodeMirror.Pos(cursor.line, currentLine.length),
+      };
+    }
+  }
+
   return null;
 };
 

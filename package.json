@@ -30,8 +30,7 @@
   "keywords": [
     "vuepress",
     "vuepress-plugin",
-    "gitgraph",
-    "pegjs"
+    "gitgraph"
   ],
   "homepage": "https://github.com/smori1983/vuepress-plugin-gitgraph-minigram#readme",
   "repository": {

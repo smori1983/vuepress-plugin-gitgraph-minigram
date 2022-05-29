@@ -3,11 +3,11 @@
     <div class="left">
       <div class="input-block">
         <div class="title">Input</div>
-        <textarea
+        <codemirror
           class="input"
           v-model="input"
-          @keyup="render()"
-        ></textarea>
+          v-bind:options="codemirrorOptions"
+        ></codemirror>
         <div
           class="error-message"
           v-if="errorMessage"
@@ -40,6 +40,8 @@
 <script>
 import { sprintf } from 'sprintf-js';
 import { Tabs, Tab } from 'vue-tabs-component';
+import 'codemirror/lib/codemirror.css';
+import { codemirror } from 'vue-codemirror/src';
 import { Generator, Format2Parser } from 'gitgraph-minigram';
 import graphDefaultMixin from './mixin/graphDefault';
 
@@ -51,6 +53,7 @@ export default {
   components: {
     Tabs,
     Tab,
+    codemirror,
   },
 
   data() {
@@ -58,6 +61,15 @@ export default {
       tabsOptions: {
         useUrlFragment: false,
         defaultTabHash: 'editor-tab-graph',
+      },
+      codemirrorOptions: {
+        theme: 'default',
+        extraKeys: {
+          'Tab': (cm) => {
+            cm.replaceSelection('  ', 'end');
+          },
+        },
+        lineNumbers: true,
       },
       parser: null,
       logger: null,
@@ -88,6 +100,12 @@ export default {
 
     this.graph = this.createGraph(container);
     this.render();
+  },
+
+  watch: {
+    input() {
+      this.render();
+    }
   },
 
   methods: {
@@ -141,22 +159,17 @@ $gitgraphFontSize = 15px
   }
 }
 .input-block {
+  margin 0 10px 0 0
   .title {
     margin 0 0 1rem
     line-height 2.5rem
     font-weight bold
   }
   .input {
-    display block
-    max-width calc(100% - 30px)
-    min-width calc(100% - 30px)
-    min-height 150px
-    height 300px
-    line-height normal
-    margin 0 0 1rem
-    padding 0.5rem
-    border-radius 6px
-    font-size $gitgraphFontSize
+    margin-bottom 10px
+    >>>.CodeMirror {
+      border 1px solid gray
+    }
   }
   .error-message {
     margin 0
@@ -206,7 +219,7 @@ $gitgraphFontSize = 15px
   margin 0
   padding 0.5rem
   border 1px solid gray
-  border-radius 6px
+  border-radius 0
   background-color white
   line-height normal
   font-size $gitgraphFontSize

@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev": "vuepress dev --no-cache example",
+    "example:dev": "vuepress dev --no-cache example",
+    "example:build": "vuepress build example",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

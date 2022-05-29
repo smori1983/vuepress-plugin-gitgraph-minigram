@@ -1,5 +1,6 @@
 module.exports = {
   title: 'Demo',
+  dest: 'example/.vuepress/dist',
 
   themeConfig: {
     search: false,

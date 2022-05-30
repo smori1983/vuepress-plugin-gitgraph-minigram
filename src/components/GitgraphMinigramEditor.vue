@@ -45,9 +45,7 @@ import { sprintf } from 'sprintf-js';
 import { Tabs, Tab } from 'vue-tabs-component';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/addon/hint/show-hint.css';
-import 'codemirror/addon/hint/show-hint';
 import { Generator, Format2Parser } from 'gitgraph-minigram';
-import hint from './codemirror/hint';
 import graphDefaultMixin from './mixin/graphDefault';
 
 export default {
@@ -63,6 +61,7 @@ export default {
   data() {
     return {
       codemirrorComponent: null,
+      hint: null,
       tabsOptions: {
         useUrlFragment: false,
         defaultTabHash: 'editor-tab-graph',
@@ -105,6 +104,12 @@ export default {
       this.codemirrorComponent = module.codemirror;
     });
 
+    import('codemirror/addon/hint/show-hint');
+
+    import('./codemirror/hint').then((module) => {
+      this.hint = module.default;
+    });
+
     const container = this.$refs['graph'];
 
     this.graph = this.createGraph(container);
@@ -130,7 +135,7 @@ export default {
     onCmReady(cm) {
       cm.on('change', (cm) => {
         cm.showHint({
-          hint: hint,
+          hint: this.hint,
           completeSingle: false,
         });
       });

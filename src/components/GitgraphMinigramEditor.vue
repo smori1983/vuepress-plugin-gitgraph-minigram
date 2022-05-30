@@ -3,11 +3,13 @@
     <div class="left">
       <div class="input-block">
         <div class="title">Input</div>
-        <codemirror
+        <component
+          v-if="codemirrorComponent"
+          :is="codemirrorComponent"
           class="input"
           v-model="input"
           v-bind:options="codemirrorOptions"
-        ></codemirror>
+        ></component>
         <div
           class="error-message"
           v-if="errorMessage"
@@ -41,7 +43,6 @@
 import { sprintf } from 'sprintf-js';
 import { Tabs, Tab } from 'vue-tabs-component';
 import 'codemirror/lib/codemirror.css';
-import { codemirror } from 'vue-codemirror/src';
 import { Generator, Format2Parser } from 'gitgraph-minigram';
 import graphDefaultMixin from './mixin/graphDefault';
 
@@ -53,11 +54,11 @@ export default {
   components: {
     Tabs,
     Tab,
-    codemirror,
   },
 
   data() {
     return {
+      codemirrorComponent: null,
       tabsOptions: {
         useUrlFragment: false,
         defaultTabHash: 'editor-tab-graph',
@@ -96,6 +97,10 @@ export default {
   },
 
   mounted() {
+    import('vue-codemirror').then((module) => {
+      this.codemirrorComponent = module.codemirror;
+    });
+
     const container = this.$refs['graph'];
 
     this.graph = this.createGraph(container);

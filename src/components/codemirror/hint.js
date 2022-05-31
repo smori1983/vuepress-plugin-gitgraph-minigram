@@ -25,6 +25,7 @@ const hint = (cm, options) => {
 
   const gitCommands = [
     'git commit',
+    'git branch ',
     'git checkout ',
     'git switch ',
     'git merge ',

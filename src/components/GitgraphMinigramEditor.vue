@@ -3,11 +3,14 @@
     <div class="left">
       <div class="input-block">
         <div class="title">Input</div>
-        <textarea
+        <component
+          v-if="codemirrorComponent"
+          :is="codemirrorComponent"
           class="input"
           v-model="input"
-          @keyup="render()"
-        ></textarea>
+          v-bind:options="codemirrorOptions"
+          v-on:ready="onCmReady"
+        ></component>
         <div
           class="error-message"
           v-if="errorMessage"
@@ -40,6 +43,8 @@
 <script>
 import { sprintf } from 'sprintf-js';
 import { Tabs, Tab } from 'vue-tabs-component';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/addon/hint/show-hint.css';
 import { Generator, Format2Parser } from 'gitgraph-minigram';
 import graphDefaultMixin from './mixin/graphDefault';
 
@@ -55,9 +60,20 @@ export default {
 
   data() {
     return {
+      codemirrorComponent: null,
+      hint: null,
       tabsOptions: {
         useUrlFragment: false,
         defaultTabHash: 'editor-tab-graph',
+      },
+      codemirrorOptions: {
+        theme: 'default',
+        extraKeys: {
+          'Tab': (cm) => {
+            cm.replaceSelection('  ', 'end');
+          },
+        },
+        lineNumbers: true,
       },
       parser: null,
       logger: null,
@@ -84,10 +100,26 @@ export default {
   },
 
   mounted() {
+    import('vue-codemirror').then((module) => {
+      this.codemirrorComponent = module.codemirror;
+    });
+
+    import('codemirror/addon/hint/show-hint');
+
+    import('./codemirror/hint').then((module) => {
+      this.hint = module.default;
+    });
+
     const container = this.$refs['graph'];
 
     this.graph = this.createGraph(container);
     this.render();
+  },
+
+  watch: {
+    input() {
+      this.render();
+    }
   },
 
   methods: {
@@ -95,6 +127,18 @@ export default {
       if (selectedTab.tab.id === 'editor-tab-graph' && this.graph) {
         this.render();
       }
+    },
+
+    /**
+     * @param {import('codemirror').Editor} cm
+     */
+    onCmReady(cm) {
+      cm.on('change', (cm) => {
+        cm.showHint({
+          hint: this.hint,
+          completeSingle: false,
+        });
+      });
     },
 
     render() {
@@ -141,22 +185,17 @@ $gitgraphFontSize = 15px
   }
 }
 .input-block {
+  margin 0 10px 0 0
   .title {
     margin 0 0 1rem
     line-height 2.5rem
     font-weight bold
   }
   .input {
-    display block
-    max-width calc(100% - 30px)
-    min-width calc(100% - 30px)
-    min-height 150px
-    height 300px
-    line-height normal
-    margin 0 0 1rem
-    padding 0.5rem
-    border-radius 6px
-    font-size $gitgraphFontSize
+    margin-bottom 10px
+    >>>.CodeMirror {
+      border 1px solid gray
+    }
   }
   .error-message {
     margin 0
@@ -206,7 +245,7 @@ $gitgraphFontSize = 15px
   margin 0
   padding 0.5rem
   border 1px solid gray
-  border-radius 6px
+  border-radius 0
   background-color white
   line-height normal
   font-size $gitgraphFontSize

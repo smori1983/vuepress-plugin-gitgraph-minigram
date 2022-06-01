@@ -22,8 +22,9 @@ const hint = (cm, options) => {
   } catch (e) {}
 
   const line = cm.getLine(cursor.line);
+  const lineNormalized = normalize(line);
 
-  if (normalize(line).length === 0) {
+  if (lineNormalized.length === 0) {
     return null;
   }
 
@@ -37,10 +38,9 @@ const hint = (cm, options) => {
   ];
 
   const gitCommandSuggestions = gitCommands.filter((command) => {
-    const normalized = normalize(line);
     const trimmed = command.trim();
 
-    return (trimmed.indexOf(normalized) === 0) && (normalized !== trimmed);
+    return (trimmed.indexOf(lineNormalized) === 0) && (lineNormalized !== trimmed);
   });
 
   if (gitCommandSuggestions.length > 0) {
@@ -51,7 +51,7 @@ const hint = (cm, options) => {
     };
   }
 
-  if (normalize(line) === 'git commit' && endsWithSpace(line)) {
+  if (lineNormalized === 'git commit' && endsWithSpace(line)) {
     return {
       list: ['-m '],
       from: CodeMirror.Pos(cursor.line, line.length),
@@ -59,7 +59,7 @@ const hint = (cm, options) => {
     }
   }
 
-  if (normalize(line) === 'git checkout' && endsWithSpace(line)) {
+  if (lineNormalized === 'git checkout' && endsWithSpace(line)) {
     return {
       list: logManager.getOtherBranches().concat(['-b ']),
       from: CodeMirror.Pos(cursor.line, line.length),
@@ -67,7 +67,7 @@ const hint = (cm, options) => {
     };
   }
 
-  if (normalize(line) === 'git switch' && endsWithSpace(line)) {
+  if (lineNormalized === 'git switch' && endsWithSpace(line)) {
     return {
       list: logManager.getOtherBranches().concat(['-c ']),
       from: CodeMirror.Pos(cursor.line, line.length),
@@ -75,7 +75,7 @@ const hint = (cm, options) => {
     };
   }
 
-  if (normalize(line) === 'git merge' && endsWithSpace(line)) {
+  if (lineNormalized === 'git merge' && endsWithSpace(line)) {
     return {
       list: logManager.getMergeableBranches(),
       from: CodeMirror.Pos(cursor.line, line.length),
@@ -83,11 +83,10 @@ const hint = (cm, options) => {
     };
   }
 
-  if (normalize(line).indexOf('git commit -') === 0) {
+  if (lineNormalized.indexOf('git commit -') === 0) {
     const list = ['git commit -m ']
       .filter((item) => {
-        const normalized = normalize(line);
-        return (item.indexOf(normalized) === 0) && (normalized !== normalize(item));
+        return (item.indexOf(lineNormalized) === 0) && (lineNormalized !== normalize(item));
       });
 
     if (list.length > 0) {
@@ -99,13 +98,12 @@ const hint = (cm, options) => {
     }
   }
 
-  if (normalize(line).indexOf('git checkout') === 0) {
+  if (lineNormalized.indexOf('git checkout') === 0) {
     const list = logManager.getOtherBranches()
       .map(branch => sprintf('git checkout %s', branch))
       .concat(['git checkout -b '])
       .filter((item) => {
-        const normalized = normalize(line);
-        return (item.indexOf(normalized) === 0) && (normalized !== item);
+        return (item.indexOf(lineNormalized) === 0) && (lineNormalized !== item);
       });
 
     if (list.length > 0) {
@@ -117,13 +115,12 @@ const hint = (cm, options) => {
     }
   }
 
-  if (normalize(line).indexOf('git switch') === 0) {
+  if (lineNormalized.indexOf('git switch') === 0) {
     const list = logManager.getOtherBranches()
       .map(branch => sprintf('git switch %s', branch))
       .concat(['git switch -c '])
       .filter((item) => {
-        const normalized = normalize(line);
-        return (item.indexOf(normalized) === 0) && (normalized !== item);
+        return (item.indexOf(lineNormalized) === 0) && (lineNormalized !== item);
       });
 
     if (list.length > 0) {
@@ -135,12 +132,11 @@ const hint = (cm, options) => {
     }
   }
 
-  if (normalize(line).indexOf('git merge') === 0) {
+  if (lineNormalized.indexOf('git merge') === 0) {
     const list = logManager.getMergeableBranches()
       .map(branch => sprintf('git merge %s', branch))
       .filter((item) => {
-        const normalized = normalize(line);
-        return (item.indexOf(normalized) === 0) && (normalized !== item);
+        return (item.indexOf(lineNormalized) === 0) && (lineNormalized !== item);
       });
 
     if (list.length > 0) {

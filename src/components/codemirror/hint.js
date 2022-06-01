@@ -84,14 +84,11 @@ const hint = (cm, options) => {
   }
 
   if (normalize(currentLine).indexOf('git commit -') === 0) {
-    const candidates = [];
-    candidates.push('git commit -m ');
-
-    const list = candidates.filter((item) => {
-      const normalized = normalize(currentLine);
-
-      return (item.indexOf(normalized) === 0) && (normalized !== normalize(item));
-    });
+    const list = ['git commit -m ']
+      .filter((item) => {
+        const normalized = normalize(currentLine);
+        return (item.indexOf(normalized) === 0) && (normalized !== normalize(item));
+      });
 
     if (list.length > 0) {
       return {
@@ -103,15 +100,13 @@ const hint = (cm, options) => {
   }
 
   if (normalize(currentLine).indexOf('git checkout') === 0) {
-    const candidates = logManager.getOtherBranches()
+    const list = logManager.getOtherBranches()
       .map(branch => sprintf('git checkout %s', branch))
-      .concat(['git checkout -b ']);
-
-    const list = candidates.filter((item) => {
-      const normalized = normalize(currentLine);
-
-      return (item.indexOf(normalized) === 0) && (normalized !== item);
-    });
+      .concat(['git checkout -b '])
+      .filter((item) => {
+        const normalized = normalize(currentLine);
+        return (item.indexOf(normalized) === 0) && (normalized !== item);
+      });
 
     if (list.length > 0) {
       return {
@@ -123,15 +118,13 @@ const hint = (cm, options) => {
   }
 
   if (normalize(currentLine).indexOf('git switch') === 0) {
-    const candidates = logManager.getOtherBranches()
+    const list = logManager.getOtherBranches()
       .map(branch => sprintf('git switch %s', branch))
-      .concat(['git switch -c ']);
-
-    const list = candidates.filter((item) => {
-      const normalized = normalize(currentLine);
-
-      return (item.indexOf(normalized) === 0) && (normalized !== item);
-    });
+      .concat(['git switch -c '])
+      .filter((item) => {
+        const normalized = normalize(currentLine);
+        return (item.indexOf(normalized) === 0) && (normalized !== item);
+      });
 
     if (list.length > 0) {
       return {
@@ -143,14 +136,12 @@ const hint = (cm, options) => {
   }
 
   if (normalize(currentLine).indexOf('git merge') === 0) {
-    const candidates = logManager.getMergeableBranches()
-      .map(branch => sprintf('git merge %s', branch));
-
-    const list = candidates.filter((item) => {
-      const normalized = normalize(currentLine);
-
-      return (item.indexOf(normalized) === 0) && (normalized !== item);
-    });
+    const list = logManager.getMergeableBranches()
+      .map(branch => sprintf('git merge %s', branch))
+      .filter((item) => {
+        const normalized = normalize(currentLine);
+        return (item.indexOf(normalized) === 0) && (normalized !== item);
+      });
 
     if (list.length > 0) {
       return {

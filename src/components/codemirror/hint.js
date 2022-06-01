@@ -85,14 +85,14 @@ const hint = (cm, options) => {
     };
   }
 
-  if (normalize(currentLine).indexOf('git commit') === 0) {
+  if (normalize(currentLine).indexOf('git commit -') === 0) {
     const candidates = [];
     candidates.push('git commit -m ');
 
     const list = candidates.filter((item) => {
       const normalized = normalize(currentLine);
 
-      return (item.indexOf(normalized) === 0) && (normalized !== item);
+      return (item.indexOf(normalized) === 0) && (normalized !== normalize(item));
     });
 
     if (list.length > 0) {

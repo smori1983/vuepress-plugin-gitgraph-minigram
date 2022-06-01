@@ -38,9 +38,7 @@ const hint = (cm, options) => {
   ];
 
   const gitCommandSuggestions = gitCommands.filter((command) => {
-    const trimmed = command.trim();
-
-    return (trimmed.indexOf(lineNormalized) === 0) && (lineNormalized !== trimmed);
+    return (command.indexOf(lineNormalized) === 0) && (lineNormalized !== command.trim());
   });
 
   if (gitCommandSuggestions.length > 0) {
@@ -86,7 +84,7 @@ const hint = (cm, options) => {
   if (lineNormalized.indexOf('git commit -') === 0) {
     const list = ['git commit -m ']
       .filter((item) => {
-        return (item.indexOf(lineNormalized) === 0) && (lineNormalized !== normalize(item));
+        return (item.indexOf(lineNormalized) === 0) && (lineNormalized !== item.trim());
       });
 
     if (list.length > 0) {
@@ -103,7 +101,7 @@ const hint = (cm, options) => {
       .map(branch => sprintf('git checkout %s', branch))
       .concat(['git checkout -b '])
       .filter((item) => {
-        return (item.indexOf(lineNormalized) === 0) && (lineNormalized !== item);
+        return (item.indexOf(lineNormalized) === 0) && (lineNormalized !== item.trim());
       });
 
     if (list.length > 0) {
@@ -120,7 +118,7 @@ const hint = (cm, options) => {
       .map(branch => sprintf('git switch %s', branch))
       .concat(['git switch -c '])
       .filter((item) => {
-        return (item.indexOf(lineNormalized) === 0) && (lineNormalized !== item);
+        return (item.indexOf(lineNormalized) === 0) && (lineNormalized !== item.trim());
       });
 
     if (list.length > 0) {
@@ -136,7 +134,7 @@ const hint = (cm, options) => {
     const list = logManager.getMergeableBranches()
       .map(branch => sprintf('git merge %s', branch))
       .filter((item) => {
-        return (item.indexOf(lineNormalized) === 0) && (lineNormalized !== item);
+        return (item.indexOf(lineNormalized) === 0) && (lineNormalized !== item.trim());
       });
 
     if (list.length > 0) {

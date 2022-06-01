@@ -28,25 +28,25 @@ const hint = (cm, options) => {
     return null;
   }
 
-  const gitCommands = [
-    'git commit',
-    'git branch ',
-    'git checkout ',
-    'git switch ',
-    'git merge ',
-    'git tag ',
-  ];
+  if (lineNormalized.indexOf('g') === 0) {
+    const list = []
+      .concat(['git commit'])
+      .concat(['git branch '])
+      .concat(['git checkout '])
+      .concat(['git switch '])
+      .concat(['git merge '])
+      .concat(['git tag '])
+      .filter((item) => {
+        return (item.indexOf(lineNormalized) === 0) && (lineNormalized !== item.trim());
+      });
 
-  const gitCommandSuggestions = gitCommands.filter((command) => {
-    return (command.indexOf(lineNormalized) === 0) && (lineNormalized !== command.trim());
-  });
-
-  if (gitCommandSuggestions.length > 0) {
-    return {
-      list: gitCommandSuggestions,
-      from: CodeMirror.Pos(cursor.line, line.indexOf('git')),
-      to: CodeMirror.Pos(cursor.line, line.length),
-    };
+    if (list.length > 0) {
+      return {
+        list: list,
+        from: CodeMirror.Pos(cursor.line, line.indexOf('git')),
+        to: CodeMirror.Pos(cursor.line, line.length),
+      };
+    }
   }
 
   if (lineNormalized === 'git commit' && endsWithSpace(line)) {

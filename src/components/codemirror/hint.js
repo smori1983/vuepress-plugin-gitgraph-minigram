@@ -23,6 +23,10 @@ const hint = (cm, options) => {
 
   const currentLine = cm.getLine(cursor.line);
 
+  if (normalize(currentLine).length === 0) {
+    return null;
+  }
+
   const gitCommands = [
     'git commit',
     'git branch ',
@@ -36,7 +40,7 @@ const hint = (cm, options) => {
     const normalized = normalize(currentLine);
     const trimmed = command.trim();
 
-    return (normalized.length > 0) && (trimmed.indexOf(normalized) === 0) && (normalized !== trimmed);
+    return (trimmed.indexOf(normalized) === 0) && (normalized !== trimmed);
   });
 
   if (gitCommandSuggestions.length > 0) {

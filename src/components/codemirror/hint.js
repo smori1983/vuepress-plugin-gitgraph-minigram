@@ -57,9 +57,7 @@ const hint = (cm, options) => {
 
   if (normalize(currentLine) === 'git checkout' && endsWithSpace(currentLine)) {
     return {
-      list: logManager.getCreatedBranches().filter((branch) => {
-        return branch !== logManager.getCurrentBranch();
-      }).concat(['-b ']),
+      list: logManager.getOtherBranches().concat(['-b ']),
       from: CodeMirror.Pos(cursor.line, currentLine.length),
       to: CodeMirror.Pos(cursor.line, currentLine.length),
     };
@@ -67,9 +65,7 @@ const hint = (cm, options) => {
 
   if (normalize(currentLine) === 'git switch' && endsWithSpace(currentLine)) {
     return {
-      list: logManager.getCreatedBranches().filter((branch) => {
-        return branch !== logManager.getCurrentBranch();
-      }).concat(['-c ']),
+      list: logManager.getOtherBranches().concat(['-c ']),
       from: CodeMirror.Pos(cursor.line, currentLine.length),
       to: CodeMirror.Pos(cursor.line, currentLine.length),
     };
@@ -77,9 +73,7 @@ const hint = (cm, options) => {
 
   if (normalize(currentLine) === 'git merge' && endsWithSpace(currentLine)) {
     return {
-      list: logManager.getMergeableBranches().filter((branch) => {
-        return branch !== logManager.getCurrentBranch();
-      }),
+      list: logManager.getMergeableBranches(),
       from: CodeMirror.Pos(cursor.line, currentLine.length),
       to: CodeMirror.Pos(cursor.line, currentLine.length),
     };
@@ -105,15 +99,9 @@ const hint = (cm, options) => {
   }
 
   if (normalize(currentLine).indexOf('git checkout') === 0) {
-    const candidates = [];
-    candidates.push('git checkout -b ');
-    logManager.getCreatedBranches()
-      .filter((branch) => {
-        return branch !== logManager.getCurrentBranch();
-      })
-      .forEach((branch) => {
-        candidates.push(sprintf('git checkout %s', branch));
-      });
+    const candidates = logManager.getOtherBranches()
+      .map(branch => sprintf('git checkout %s', branch))
+      .concat(['git checkout -b ']);
 
     const list = candidates.filter((item) => {
       const normalized = normalize(currentLine);
@@ -131,15 +119,9 @@ const hint = (cm, options) => {
   }
 
   if (normalize(currentLine).indexOf('git switch') === 0) {
-    const candidates = [];
-    candidates.push('git switch -c ');
-    logManager.getCreatedBranches()
-      .filter((branch) => {
-        return branch !== logManager.getCurrentBranch();
-      })
-      .forEach((branch) => {
-        candidates.push(sprintf('git switch %s', branch));
-      });
+    const candidates = logManager.getOtherBranches()
+      .map(branch => sprintf('git switch %s', branch))
+      .concat(['git switch -c ']);
 
     const list = candidates.filter((item) => {
       const normalized = normalize(currentLine);
@@ -157,14 +139,8 @@ const hint = (cm, options) => {
   }
 
   if (normalize(currentLine).indexOf('git merge') === 0) {
-    const candidates = [];
-    logManager.getMergeableBranches()
-      .filter((branch) => {
-        return branch !== logManager.getCurrentBranch();
-      })
-      .forEach((branch) => {
-        candidates.push(sprintf('git merge %s', branch));
-      });
+    const candidates = logManager.getMergeableBranches()
+      .map(branch => sprintf('git merge %s', branch));
 
     const list = candidates.filter((item) => {
       const normalized = normalize(currentLine);

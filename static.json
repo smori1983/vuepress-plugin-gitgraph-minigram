@@ -1,0 +1,4 @@
+{
+  "root": "example/.vuepress/dist",
+  "https_only": true
+}

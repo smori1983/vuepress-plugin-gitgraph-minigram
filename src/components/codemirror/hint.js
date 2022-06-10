@@ -21,67 +21,87 @@ const hint = (cm, options) => {
     });
   } catch (e) {}
 
-  const currentLine = cm.getLine(cursor.line);
+  const line = cm.getLine(cursor.line);
+  const lineNormalized = normalize(line);
 
-  const gitCommands = [
-    'git commit',
-    'git checkout ',
-    'git switch ',
-    'git merge ',
-    'git tag ',
-  ];
-
-  const gitCommandSuggestions = gitCommands.filter((command) => {
-    const normalized = normalize(currentLine);
-    const trimmed = command.trim();
-
-    return (normalized.length > 0) && (trimmed.indexOf(normalized) === 0) && (normalized !== trimmed);
-  });
-
-  if (gitCommandSuggestions.length > 0) {
-    return {
-      list: gitCommandSuggestions,
-      from: CodeMirror.Pos(cursor.line, currentLine.indexOf('git')),
-      to: CodeMirror.Pos(cursor.line, currentLine.length),
-    };
+  if (lineNormalized.length === 0) {
+    return null;
   }
 
-  if (normalize(currentLine) === 'git commit' && endsWithSpace(currentLine)) {
-    return {
-      list: ['-m '],
-      from: CodeMirror.Pos(cursor.line, currentLine.length),
-      to: CodeMirror.Pos(cursor.line, currentLine.length),
+  if (lineNormalized.indexOf('git ') === 0) {
+    const list = []
+      .concat(['commit'])
+      .concat(['branch '])
+      .concat(['checkout '])
+      .concat(['switch '])
+      .concat(['merge '])
+      .concat(['tag '])
+      .filter(item => sprintf('git %s', item).indexOf(lineNormalized) === 0)
+      .filter(item => sprintf('git %s', item) !== lineNormalized);
+
+    if (list.length > 0) {
+      return {
+        list: list,
+        from: CodeMirror.Pos(cursor.line, 'git '.length),
+        to: CodeMirror.Pos(cursor.line, line.length),
+      };
     }
   }
 
-  if (normalize(currentLine) === 'git checkout' && endsWithSpace(currentLine)) {
-    return {
-      list: logManager.getCreatedBranches().filter((branch) => {
-        return branch !== logManager.getCurrentBranch();
-      }).concat(['-b ']),
-      from: CodeMirror.Pos(cursor.line, currentLine.length),
-      to: CodeMirror.Pos(cursor.line, currentLine.length),
-    };
+  if (lineNormalized.indexOf('git commit ') === 0) {
+    const list = ['-m ']
+      .filter(item => sprintf('git commit %s', item).indexOf(lineNormalized) === 0)
+      .filter(item => sprintf('git commit %s', item) !== lineNormalized);
+
+    if (list.length > 0) {
+      return {
+        list: list,
+        from: CodeMirror.Pos(cursor.line, 'git commit '.length),
+        to: CodeMirror.Pos(cursor.line, line.length),
+      };
+    }
   }
 
-  if (normalize(currentLine) === 'git switch' && endsWithSpace(currentLine)) {
-    return {
-      list: logManager.getCreatedBranches().filter((branch) => {
-        return branch !== logManager.getCurrentBranch();
-      }).concat(['-c ']),
-      from: CodeMirror.Pos(cursor.line, currentLine.length),
-      to: CodeMirror.Pos(cursor.line, currentLine.length),
-    };
+  if (lineNormalized.indexOf('git checkout ') === 0) {
+    const list = logManager.getOtherBranches().concat(['-b '])
+      .filter(item => sprintf('git checkout %s', item).indexOf(lineNormalized) === 0)
+      .filter(item => sprintf('git checkout %s', item) !== lineNormalized);
+
+    if (list.length > 0) {
+      return {
+        list: list,
+        from: CodeMirror.Pos(cursor.line, 'git checkout '.length),
+        to: CodeMirror.Pos(cursor.line, line.length),
+      };
+    }
   }
 
-  if (normalize(currentLine) === 'git merge' && endsWithSpace(currentLine)) {
-    return {
-      list: logManager.getMergeableBranches().filter((branch) => {
-        return branch !== logManager.getCurrentBranch();
-      }),
-      from: CodeMirror.Pos(cursor.line, currentLine.length),
-      to: CodeMirror.Pos(cursor.line, currentLine.length),
-    };
+  if (lineNormalized.indexOf('git switch ') === 0) {
+    const list = logManager.getOtherBranches().concat(['-c '])
+      .filter(item => sprintf('git switch %s', item).indexOf(lineNormalized) === 0)
+      .filter(item => sprintf('git switch %s', item) !== lineNormalized);
+
+    if (list.length > 0) {
+      return {
+        list: list,
+        from: CodeMirror.Pos(cursor.line, 'git switch '.length),
+        to: CodeMirror.Pos(cursor.line, line.length),
+      };
+    }
+  }
+
+  if (lineNormalized.indexOf('git merge ') === 0) {
+    const list = logManager.getMergeableBranches()
+      .filter(item => sprintf('git merge %s', item).indexOf(lineNormalized) === 0)
+      .filter(item => sprintf('git merge %s', item) !== lineNormalized);
+
+    if (list.length > 0) {
+      return {
+        list: list,
+        from: CodeMirror.Pos(cursor.line, 'git merge '.length),
+        to: CodeMirror.Pos(cursor.line, line.length),
+      };
+    }
   }
 
   return null;
@@ -92,7 +112,7 @@ const hint = (cm, options) => {
  * @returns {string}
  */
 const normalize = (value) => {
-  return value.trim().split(/\s+/).join(' ');
+  return value.trimStart().split(/\s+/).join(' ');
 };
 
 /**

@@ -6,32 +6,25 @@ class LogManager extends LogManagerOriginal {
   }
 
   /**
-   * @return {string}
-   */
-  getCurrentBranch() {
-    return this._getCurrentBranch();
-  }
-
-  /**
+   * Get the branch names other than current branch.
+   *
    * @return {string[]}
    */
-  getCreatedBranches() {
-    return this._branchList.getBranchNames();
+  getOtherBranches() {
+    return this._branchList.getBranchNames().filter((branch) => {
+      return branch !== this._getCurrentBranch();
+    });
   }
 
   /**
+   * Get the branch names that can be merged into current branch.
+   *
    * @return {string[]}
    */
   getMergeableBranches() {
-    const result = [];
-
-    this.getCreatedBranches().forEach((branch) => {
-      if (this._branchList.get(branch).getCommitCount() > 0) {
-        result.push(branch);
-      }
+    return this.getOtherBranches().filter((branch) => {
+      return this._branchList.get(branch).getCommitCount() > 0;
     });
-
-    return result;
   }
 }
 

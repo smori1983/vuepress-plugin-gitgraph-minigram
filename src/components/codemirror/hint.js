@@ -154,7 +154,7 @@ const hint = (cm, options) => {
  * @returns {string}
  */
 const normalize = (value) => {
-  return value.trim().split(/\s+/).join(' ');
+  return value.trimStart().split(/\s+/).join(' ');
 };
 
 /**

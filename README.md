@@ -2,7 +2,16 @@
 
 VuePress plugin for [gitgraph-minigram](https://www.npmjs.com/package/gitgraph-minigram).
 
-Provides `markdown-it` notation to draw git commit graph of [@gitgraph/js](https://www.npmjs.com/package/@gitgraph/js).
+Provides:
+
+- `markdown-it` notation to draw git commit graph of [@gitgraph/js](https://www.npmjs.com/package/@gitgraph/js).
+- web editor powered by CodeMirror 5.
+
+
+## Example site
+
+- Run `npm run example:dev`
+- Visit [online demo](https://vp-gitgraph-minigram.herokuapp.com/)
 
 
 ## Basic usage

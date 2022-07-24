@@ -1,17 +1,25 @@
 module.exports = {
-  title: 'Demo',
+  title: 'vuepress-plugin-gitgraph-minigram Demo',
   dest: 'example/.vuepress/dist',
 
   themeConfig: {
     search: false,
     nav: [
-      { text: 'Editor', link: '/editor.html' },
+      { text: 'npm', link: 'https://www.npmjs.com/package/vuepress-plugin-gitgraph-minigram' },
     ],
     sidebar: [
       {
-        collapse: false,
-        title: 'Patterns',
+        collapsable: false,
         sidebarDepth: 0,
+        title: 'Tools',
+        children: [
+          '/editor.md',
+        ],
+      },
+      {
+        collapsable: false,
+        sidebarDepth: 0,
+        title: 'Patterns',
         children: [
           '/pattern/ok_01.md',
           '/pattern/ok_02.md',

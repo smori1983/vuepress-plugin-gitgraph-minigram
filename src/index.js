@@ -1,5 +1,13 @@
+/**
+ * @typedef {import('vuepress-types').PluginOptionAPI} PluginOptionAPI
+ */
+
 const path = require('path');
 
+/**
+ * @param {Object} options
+ * @return {PluginOptionAPI}
+ */
 module.exports = (options) => {
   const {
     fenceName = 'gitgraph',

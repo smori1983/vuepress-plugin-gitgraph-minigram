@@ -1,7 +1,4 @@
----
-title: Error 212
----
-## Result
+# Error 212
 
 ```gitgraph
 [log]
@@ -10,10 +7,11 @@ git branch foo
 git branch foo
 ```
 
-::: details Source
+
+## Source
 
 ````md
-## Result
+# Error 212
 
 ```gitgraph
 [log]
@@ -22,5 +20,3 @@ git branch foo
 git branch foo
 ```
 ````
-
-:::

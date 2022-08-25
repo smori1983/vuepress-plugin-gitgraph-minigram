@@ -1,20 +1,16 @@
----
-title: Error 001
----
-## Result
+# Error 001
 
 ```gitgraph
 [foo]
 ```
 
-::: details Source
+
+## Source
 
 ````md
-## Result
+# Error 001
 
 ```gitgraph
 [foo]
 ```
 ````
-
-:::

@@ -1,7 +1,4 @@
----
-title: Error 224
----
-## Result
+# Error 224
 
 ```gitgraph
 [log]
@@ -14,10 +11,11 @@ git merge bar
 git tag v1.0.0
 ```
 
-::: details Source
+
+## Source
 
 ````md
-## Result
+# Error 224
 
 ```gitgraph
 [log]
@@ -30,5 +28,3 @@ git merge bar
 git tag v1.0.0
 ```
 ````
-
-:::

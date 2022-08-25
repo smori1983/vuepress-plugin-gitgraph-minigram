@@ -1,7 +1,4 @@
----
-title: Error 213
----
-## Result
+# Error 213
 
 ```gitgraph
 [log]
@@ -11,10 +8,11 @@ git commit -m '2'
 git commit -m '3'
 ```
 
-::: details Source
+
+## Source
 
 ````md
-## Result
+# Error 213
 
 ```gitgraph
 [log]
@@ -24,5 +22,3 @@ git commit -m '2'
 git commit -m '3'
 ```
 ````
-
-:::

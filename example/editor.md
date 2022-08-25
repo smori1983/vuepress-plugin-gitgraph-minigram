@@ -18,3 +18,7 @@ sidebar: false
 ```
 
 :::
+
+::: tip NOTE
+This page does not store any data in local and remote.
+:::

@@ -1,7 +1,4 @@
----
-title: Error 211
----
-## Result
+# Error 211
 
 ```gitgraph
 [log]
@@ -10,10 +7,11 @@ git checkout foo
 git commit -m '2'
 ```
 
-::: details Source
+
+## Source
 
 ````md
-## Result
+# Error 211
 
 ```gitgraph
 [log]
@@ -22,5 +20,3 @@ git checkout foo
 git commit -m '2'
 ```
 ````
-
-:::

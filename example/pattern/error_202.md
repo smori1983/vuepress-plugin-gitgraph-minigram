@@ -1,22 +1,18 @@
----
-title: Error 202
----
-## Result
+# Error 202
 
 ```gitgraph
 [log]
 git commit -m
 ```
 
-::: details Source
+
+## Source
 
 ````md
-## Result
+# Error 202
 
 ```gitgraph
 [log]
 git commit -m
 ```
 ````
-
-:::

@@ -1,7 +1,4 @@
----
-title: Error 102
----
-## Result
+# Error 102
 
 ```gitgraph
 [option]
@@ -11,10 +8,11 @@ foo: bar
 git commit
 ```
 
-::: details Source
+
+## Source
 
 ````md
-## Result
+# Error 102
 
 ```gitgraph
 [option]
@@ -24,5 +22,3 @@ foo: bar
 git commit
 ```
 ````
-
-:::

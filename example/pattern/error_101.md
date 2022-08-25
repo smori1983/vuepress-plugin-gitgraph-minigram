@@ -1,7 +1,4 @@
----
-title: Error 101
----
-## Result
+# Error 101
 
 ```gitgraph
 [option]
@@ -10,10 +7,11 @@ defaultBranch = master
 git commit
 ```
 
-::: details Source
+
+## Source
 
 ````md
-## Result
+# Error 101
 
 ```gitgraph
 [option]
@@ -22,5 +20,3 @@ defaultBranch = master
 git commit
 ```
 ````
-
-:::

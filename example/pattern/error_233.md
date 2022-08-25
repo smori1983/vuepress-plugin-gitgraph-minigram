@@ -1,28 +1,22 @@
----
-title: Error 233
----
-## Result
+# Error 233
 
 ```gitgraph
 [log]
-git commit
 git commit
 git checkout -b foo
 git tag v1.0.0
 ```
 
-::: details Source
+
+## Source
 
 ````md
-## Result
+# Error 233
 
 ```gitgraph
 [log]
-git commit
 git commit
 git checkout -b foo
 git tag v1.0.0
 ```
 ````
-
-:::

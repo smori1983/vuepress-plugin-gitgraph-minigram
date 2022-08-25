@@ -1,22 +1,18 @@
----
-title: Error 231
----
-## Result
+# Error 231
 
 ```gitgraph
 [log]
 git tag v1.0.0
 ```
 
-::: details Source
+
+## Source
 
 ````md
-## Result
+# Error 231
 
 ```gitgraph
 [log]
 git tag v1.0.0
 ```
 ````
-
-:::

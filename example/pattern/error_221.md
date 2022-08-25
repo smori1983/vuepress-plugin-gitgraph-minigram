@@ -1,7 +1,4 @@
----
-title: Error 221
----
-## Result
+# Error 221
 
 ```gitgraph
 [log]
@@ -12,10 +9,11 @@ git merge foo
 git tag v1.0.0
 ```
 
-::: details Source
+
+## Source
 
 ````md
-## Result
+# Error 221
 
 ```gitgraph
 [log]
@@ -26,5 +24,3 @@ git merge foo
 git tag v1.0.0
 ```
 ````
-
-:::

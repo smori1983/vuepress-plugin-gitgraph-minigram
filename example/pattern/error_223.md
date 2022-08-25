@@ -1,7 +1,4 @@
----
-title: Error 223
----
-## Result
+# Error 223
 
 ```gitgraph
 [log]
@@ -16,10 +13,11 @@ git merge branch2
 git tag v1.0.0
 ```
 
-::: details Source
+
+## Source
 
 ````md
-## Result
+# Error 223
 
 ```gitgraph
 [log]
@@ -34,5 +32,3 @@ git merge branch2
 git tag v1.0.0
 ```
 ````
-
-:::

@@ -23,6 +23,7 @@ module.exports = {
         children: [
           '/pattern/ok_01.md',
           '/pattern/ok_02.md',
+          '/pattern/ok_03.md',
 
           '/pattern/error_001.md',
           '/pattern/error_002.md',

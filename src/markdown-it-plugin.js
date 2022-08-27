@@ -1,20 +1,16 @@
+const markdownItFence = require('markdown-it-fence');
+
 /**
  * @param {string} fenceName
  * @param {string} componentName
  */
 module.exports = (fenceName, componentName) => {
   return (md) => {
-    const fence = md.renderer.rules.fence;
-
-    md.renderer.rules.fence = (...args) => {
-      const [tokens, idx] = args;
-      const {content, info} = tokens[idx];
-
-      if (info.trim() === fenceName) {
-        return `<${componentName}>${content}</${componentName}>`;
-      }
-
-      return fence(...args);
-    };
+    return markdownItFence(md, fenceName, {
+      marker: '`',
+      render: (tokens, idx, options, env, self) => {
+        return `<${componentName}>${tokens[idx].content}</${componentName}>`;
+      },
+    });
   };
 };

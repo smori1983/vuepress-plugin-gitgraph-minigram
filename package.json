@@ -15,6 +15,7 @@
     "@gitgraph/js": "^1.4.0",
     "codemirror": "^5.65.8",
     "gitgraph-minigram": "^0.3.0",
+    "markdown-it-fence": "^0.1.3",
     "sprintf-js": "^1.1.2",
     "vue-codemirror": "^4.0.6",
     "vue-tabs-component": "^1.5.0"

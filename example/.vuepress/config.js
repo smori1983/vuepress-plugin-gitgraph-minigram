@@ -1,4 +1,5 @@
 module.exports = {
+  base: '/vuepress-plugin-gitgraph-minigram/',
   title: 'vuepress-plugin-gitgraph-minigram Demo',
   dest: 'example/.vuepress/dist',
 

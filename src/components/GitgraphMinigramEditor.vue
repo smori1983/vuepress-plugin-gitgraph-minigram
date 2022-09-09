@@ -100,6 +100,16 @@ export default {
   },
 
   mounted() {
+    // To change max-width, add class attribute.
+    // CSS for the class attribute is defined in <style>.
+    const contentElement = document.querySelector('.theme-default-content');
+    if (contentElement !== null) {
+      const existingClass = contentElement.getAttribute('class') || '';
+      const additionalClass = 'vuepress-plugin-gitgraph-minigram-editor-content';
+      const newAttribute = [existingClass, additionalClass].join(' ').trim();
+      contentElement.setAttribute('class', newAttribute);
+    }
+
     import('vue-codemirror').then((module) => {
       this.codemirrorComponent = module.codemirror;
     });
@@ -167,8 +177,8 @@ export default {
 </script>
 
 <style lang="stylus">
-.theme-default-content {
-  //max-width 100% !important
+.vuepress-plugin-gitgraph-minigram-editor-content {
+  max-width 100% !important
 }
 </style>
 

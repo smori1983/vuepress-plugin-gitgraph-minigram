@@ -168,7 +168,7 @@ export default {
 
 <style lang="stylus">
 .theme-default-content {
-  max-width 100% !important
+  //max-width 100% !important
 }
 </style>
 

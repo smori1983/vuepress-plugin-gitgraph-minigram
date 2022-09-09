@@ -11,7 +11,7 @@ Provides:
 ## Example site
 
 - Run `npm run example:dev`
-- Visit [online demo](https://vp-gitgraph-minigram.herokuapp.com/)
+- Visit [online demo](https://smori1983.github.io/vuepress-plugin-gitgraph-minigram/)
 
 
 ## Basic usage
